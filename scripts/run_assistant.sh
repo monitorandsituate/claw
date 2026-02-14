@@ -16,6 +16,11 @@ fi
 
 source .venv/bin/activate
 
+# Fix SSL certs (Homebrew Python can leave SSL_CERT_FILE dangling)
+if [[ -n "${SSL_CERT_FILE:-}" ]] && [[ ! -f "${SSL_CERT_FILE}" ]]; then
+  export SSL_CERT_FILE=$(python -c "import certifi; print(certifi.where())" 2>/dev/null || true)
+fi
+
 # Catch stale/broken local checkouts early (e.g. providers.py indentation/import regressions).
 bash scripts/doctor.sh
 

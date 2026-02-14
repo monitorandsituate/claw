@@ -13,6 +13,14 @@ fi
 
 source .venv/bin/activate
 
+# ---- fix SSL certs (Homebrew Python can leave SSL_CERT_FILE dangling) ------
+if [[ -n "${SSL_CERT_FILE:-}" ]] && [[ ! -f "${SSL_CERT_FILE}" ]]; then
+  export SSL_CERT_FILE=$(python -c "import certifi; print(certifi.where())" 2>/dev/null || true)
+fi
+if [[ -z "${SSL_CERT_FILE:-}" ]]; then
+  export SSL_CERT_FILE=$(python -c "import certifi; print(certifi.where())" 2>/dev/null || true)
+fi
+
 # ---- ensure Ollama is running ----------------------------------------------
 if ! pgrep -qx "ollama" 2>/dev/null; then
   echo "Starting Ollama daemon …"

@@ -55,6 +55,18 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip -q
 pip install -r requirements.txt -q
+
+# Fix SSL certs for Homebrew Python
+CERT_PATH=$(python -c "import certifi; print(certifi.where())" 2>/dev/null || true)
+if [[ -n "$CERT_PATH" ]]; then
+  export SSL_CERT_FILE="$CERT_PATH"
+  # Persist into .env so run scripts pick it up
+  if ! grep -q "^SSL_CERT_FILE=" .env 2>/dev/null; then
+    echo "" >> .env
+    echo "# SSL certificate bundle (auto-detected from certifi)" >> .env
+    echo "SSL_CERT_FILE=$CERT_PATH" >> .env
+  fi
+fi
 echo "Dependencies installed."
 
 # ---- 6) Config files -------------------------------------------------------

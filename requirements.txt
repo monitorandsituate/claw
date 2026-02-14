@@ -5,3 +5,4 @@ yfinance>=0.2.43
 duckduckgo-search>=6.2.13
 python-dotenv>=1.0.1
 python-telegram-bot>=21.5
+certifi>=2024.2.2
