@@ -1,0 +1,31 @@
+assistant:
+  model: llama3.1:8b
+  temperature: 0.2
+  max_web_results: 5
+  nba_games_to_analyze: 8
+
+nba:
+  watch_players:
+    - Luka Doncic
+    - Jayson Tatum
+    - Nikola Jokic
+  watch_teams:
+    - BOS
+    - DEN
+  query_terms:
+    - injury report
+    - pace rankings
+    - minutes trend
+
+stocks:
+  watch_symbols:
+    - NVDA
+    - AAPL
+    - TSLA
+  query_terms:
+    - implied volatility
+    - earnings date
+    - analyst sentiment
+
+output:
+  include_risk_section: true
