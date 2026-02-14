@@ -4,6 +4,16 @@ import json
 import os
 from typing import Any, Dict
 
+
+import requests
+
+
+def ollama_host() -> str:
+    return os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
+
+
+def synthesize_report(model: str, temperature: float, payload: Dict[str, Any]) -> str:
+
 import ollama
 
 

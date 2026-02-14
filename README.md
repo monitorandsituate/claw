@@ -120,3 +120,14 @@ By default it runs at 7:00 AM local time.
 - Add brokerage/options API integration for higher-fidelity chain data.
 - Add local vector DB for historical memo retrieval.
 - Add backtesting notebook for signal validation.
+
+## Troubleshooting
+
+- If you previously hit an `SSL_CERT_FILE` / `FileNotFoundError` while running the assistant, re-run bootstrap to refresh dependencies:
+
+```bash
+bash scripts/bootstrap_mac.sh
+```
+
+This project talks to Ollama through its local HTTP API (`http://127.0.0.1:11434` by default), so it does not rely on the Python `ollama` package runtime.
+
