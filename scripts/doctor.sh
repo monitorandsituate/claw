@@ -18,7 +18,13 @@ fi
 "$PYTHON_BIN" -m compileall src
 "$PYTHON_BIN" -m py_compile src/openclaw_research_assistant/providers.py
 
-if rg -n "^\s*import\s+ollama\b" src/openclaw_research_assistant/providers.py >/dev/null; then
+if command -v rg >/dev/null 2>&1; then
+  HAS_OLLAMA_IMPORT=$(rg -n "^\s*import\s+ollama\b" src/openclaw_research_assistant/providers.py || true)
+else
+  HAS_OLLAMA_IMPORT=$(grep -nE "^[[:space:]]*import[[:space:]]+ollama\b" src/openclaw_research_assistant/providers.py || true)
+fi
+
+if [[ -n "$HAS_OLLAMA_IMPORT" ]]; then
   echo "Unexpected direct 'import ollama' found in providers.py"
   echo "Your local checkout is likely stale. Run: git pull --ff-only"
   exit 1

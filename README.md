@@ -143,3 +143,5 @@ bash scripts/bootstrap_mac.sh
 ```
 
 This project talks to Ollama through its local HTTP API (`http://127.0.0.1:11434` by default), so it does not rely on the Python `ollama` package runtime.
+
+- If NBA data provider endpoints change or are temporarily unavailable, the run now continues and records provider errors in the JSON payload/report instead of crashing.
