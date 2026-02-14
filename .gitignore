@@ -5,3 +5,5 @@ __pycache__/
 config/strategy.yaml
 logs/*.log
 data/reports/*.md
+data/reports/*.json
+.DS_Store
