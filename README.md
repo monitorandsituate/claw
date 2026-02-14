@@ -130,3 +130,4 @@ bash scripts/bootstrap_mac.sh
 ```
 
 This project talks to Ollama through its local HTTP API (`http://127.0.0.1:11434` by default), so it does not rely on the Python `ollama` package runtime.
+
