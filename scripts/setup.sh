@@ -113,13 +113,28 @@ else
   echo "TELEGRAM_BOT_TOKEN already set."
 fi
 
-# ---- 8) Optional: restrict by chat ID -------------------------------------
+# ---- 8) Restrict by chat ID ------------------------------------------------
+step "Telegram chat ID"
 set -a; source .env 2>/dev/null || true; set +a
 if [[ -z "${TELEGRAM_ALLOWED_CHAT_IDS:-}" ]]; then
   echo ""
-  echo "(Optional) You can restrict the bot to specific Telegram chat IDs."
-  echo "Send /start to the bot, then check the logs for your chat ID."
-  echo "Set TELEGRAM_ALLOWED_CHAT_IDS in .env as a comma-separated list."
+  echo "Lock the bot to your Telegram account so only you can use it."
+  echo "To find your chat ID: message @userinfobot on Telegram — it replies with your ID."
+  echo ""
+  read -rp "Paste your Telegram chat ID (or press Enter to skip): " CHAT_ID
+  if [[ -n "$CHAT_ID" ]]; then
+    if grep -q "^TELEGRAM_ALLOWED_CHAT_IDS=" .env 2>/dev/null; then
+      sed -i '' "s|^TELEGRAM_ALLOWED_CHAT_IDS=.*|TELEGRAM_ALLOWED_CHAT_IDS=$CHAT_ID|" .env
+    else
+      echo "" >> .env
+      echo "TELEGRAM_ALLOWED_CHAT_IDS=$CHAT_ID" >> .env
+    fi
+    echo "Chat ID saved to .env — only you can use the bot."
+  else
+    echo "Skipped — bot will accept messages from anyone. Add TELEGRAM_ALLOWED_CHAT_IDS to .env later."
+  fi
+else
+  echo "TELEGRAM_ALLOWED_CHAT_IDS already set: ${TELEGRAM_ALLOWED_CHAT_IDS}"
 fi
 
 # ---- 9) Sanity check -------------------------------------------------------
