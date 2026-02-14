@@ -1,0 +1,6 @@
+PyYAML>=6.0.1
+pydantic>=2.8.2
+requests>=2.32.3
+yfinance>=0.2.43
+duckduckgo-search>=6.2.13
+python-dotenv>=1.0.1
