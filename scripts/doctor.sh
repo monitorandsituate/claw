@@ -9,6 +9,7 @@ python -m py_compile src/openclaw_research_assistant/providers.py
 
 if rg -n "^\s*import\s+ollama\b" src/openclaw_research_assistant/providers.py >/dev/null; then
   echo "Unexpected direct 'import ollama' found in providers.py"
+  echo "Your local checkout is likely stale. Run: git pull --ff-only"
   exit 1
 fi
 

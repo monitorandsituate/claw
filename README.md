@@ -32,7 +32,8 @@ It performs recurring research for:
 ├── scripts/
 │   ├── bootstrap_mac.sh
 │   ├── install_launchd.sh
-│   └── run_assistant.sh
+│   ├── run_assistant.sh
+│   └── doctor.sh
 ├── src/openclaw_research_assistant/
 │   ├── __init__.py
 │   ├── assistant.py
@@ -94,6 +95,18 @@ Edit `config/strategy.yaml` with:
 bash scripts/run_assistant.sh
 ```
 
+If anything fails unexpectedly, run:
+
+```bash
+bash scripts/doctor.sh
+```
+
+If `doctor.sh` reports stale code, refresh your checkout:
+
+```bash
+git pull --ff-only
+```
+
 Output report lands in:
 - `data/reports/research_YYYYMMDD_HHMMSS.md`
 
@@ -130,4 +143,3 @@ bash scripts/bootstrap_mac.sh
 ```
 
 This project talks to Ollama through its local HTTP API (`http://127.0.0.1:11434` by default), so it does not rely on the Python `ollama` package runtime.
-
