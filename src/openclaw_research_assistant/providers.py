@@ -4,6 +4,7 @@ import json
 import os
 from typing import Any, Dict
 
+
 import requests
 
 
@@ -12,6 +13,17 @@ def ollama_host() -> str:
 
 
 def synthesize_report(model: str, temperature: float, payload: Dict[str, Any]) -> str:
+
+import ollama
+
+
+def ollama_client() -> ollama.Client:
+    host = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
+    return ollama.Client(host=host)
+
+
+def synthesize_report(model: str, temperature: float, payload: Dict[str, Any]) -> str:
+    client = ollama_client()
     system = (
         "You are an autonomous research analyst. "
         "Use evidence from provided data only. "
@@ -28,24 +40,12 @@ def synthesize_report(model: str, temperature: float, payload: Dict[str, Any]) -
         f"{json.dumps(payload, indent=2)}"
     )
 
-    response = requests.post(
-        f"{ollama_host().rstrip('/')}/api/chat",
-        json={
-            "model": model,
-            "options": {"temperature": temperature},
-            "messages": [
-                {"role": "system", "content": system},
-                {"role": "user", "content": prompt},
-            ],
-            "stream": False,
-        },
-        timeout=180,
+    response = client.chat(
+        model=model,
+        options={"temperature": temperature},
+        messages=[
+            {"role": "system", "content": system},
+            {"role": "user", "content": prompt},
+        ],
     )
-    response.raise_for_status()
-    body = response.json()
-
-    message = body.get("message", {})
-    content = message.get("content")
-    if not content:
-        raise RuntimeError(f"Unexpected Ollama response format: {body}")
-    return content
+    return response["message"]["content"]
