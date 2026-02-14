@@ -14,9 +14,10 @@ if [[ ! -f "config/strategy.yaml" ]]; then
   exit 1
 fi
 
+source .venv/bin/activate
+
 # Catch stale/broken local checkouts early (e.g. providers.py indentation/import regressions).
 bash scripts/doctor.sh
 
-source .venv/bin/activate
 export PYTHONPATH="$ROOT_DIR/src:${PYTHONPATH:-}"
 python -m openclaw_research_assistant.assistant --strategy config/strategy.yaml --report-dir "${REPORT_DIR:-data/reports}"
